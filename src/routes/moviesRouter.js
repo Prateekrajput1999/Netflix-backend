@@ -3,9 +3,10 @@ import {
   fetchAllMoviesController,
   fetchMovieByIdController,
 } from "../controllers/moviesController.js";
+import { authorize } from "../middlewares/authorization.js";
 
 export const moviesRouter = Router();
 
-moviesRouter.get("/", fetchAllMoviesController);
+moviesRouter.get("/", authorize, fetchAllMoviesController);
 
-moviesRouter.get("/:id", fetchMovieByIdController);
+moviesRouter.get("/:id", authorize, fetchMovieByIdController);

@@ -1,4 +1,7 @@
-import { fetchUserByEmailService } from "../services/userService";
+import {
+  fetchUserByEmailService,
+  generateAccessTokenService,
+} from "../services/userService.js";
 import bcrypt from "bcrypt";
 
 export const LoginController = async (req, res, next) => {
@@ -21,17 +24,24 @@ export const LoginController = async (req, res, next) => {
       });
     }
 
-    const isPasswordValid = bcrypt.compare(password, existingUser?.password);
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingUser?.password
+    );
 
-    if(isPasswordValid) {
-        // logic to create a new session here and return. 
+    if (isPasswordValid) {
+      const data = generateAccessTokenService({
+        email,
+        name: existingUser?.name,
+      });
+
+      return res.status(200).send({ status: "SUCCESS", accesstoken: data });
     }
 
     return res.status(400).send({
-        status: "FAILED",
-        error: "Invalid password.",
-    })
-
+      status: "FAILED",
+      error: "Invalid password.",
+    });
   } catch {
     res.status(500).send("Internal server error");
   }
