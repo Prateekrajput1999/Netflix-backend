@@ -5,6 +5,7 @@ import { connectDb } from "./src/services/storageService.js";
 import { moviesRouter } from "./src/routes/moviesRouter.js";
 import { signUpRouter } from "./src/routes/signUpRouter.js";
 import { LoginRouter } from "./src/routes/loginRouter.js";
+import { favouritesRouter } from "./src/routes/favouritesRouter.js";
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use("/movies", moviesRouter);
 app.use("/signup", signUpRouter);
 
 app.use("/login", LoginRouter);
+
+app.use("/favourites", favouritesRouter)
 
 app.get("*", (req, res) => {
   res.status(404).send({

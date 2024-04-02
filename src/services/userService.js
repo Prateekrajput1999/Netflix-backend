@@ -12,6 +12,16 @@ export const fetchUserByEmailService = async (email) => {
   }
 };
 
+export const fetchUserByIdService = async (id) => {
+  try {
+    const database = getDatabase("sample_mflix");
+    const usersCollection = database.collection("users");
+    return await usersCollection.findOne({ email });
+  } catch {
+    throw new Error();
+  }
+};
+
 export const addUserToDataBaseService = async ({ email, name, password }) => {
   try {
     const database = getDatabase("sample_mflix");
